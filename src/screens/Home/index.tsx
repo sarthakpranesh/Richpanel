@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // importing components
 import Nav from '../../components/Nav';
 import { Menu, Refresh, Send } from '../../components/Icons/'
 import ConvItem from '../../components/ConvItem';
 import Message from '../../components/Message';
+import { facebookGetPageAccessToken } from '../../components/FacebookSDK';
 
 // importing styles
 import './styles.css';
@@ -51,6 +52,9 @@ const currentConversation = [
 ]
 
 const Home = () => {
+    useEffect(() => {
+        facebookGetPageAccessToken();
+    }, []);
     return (
         <div className="mainWrapperHome">
             <Nav />

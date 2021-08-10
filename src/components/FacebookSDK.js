@@ -32,7 +32,7 @@ export function facebookLogin() {
         console.log(resp);
         window.document.location.reload();
     }, {
-        scope: ''
+        scope: 'public_profile,email,pages_messaging,pages_read_user_content',
     })
 }
 
@@ -40,4 +40,13 @@ export function facebookLogout() {
     window.FB.logout(() => {
         window.document.location.reload();
     });
+}
+
+export function facebookGetPageAccessToken(userAccessToken) {
+    return new Promise(async (resolve, reject) => {
+        window.FB.api('/me/accounts', (resp) => {
+            console.log(resp);
+            resolve();
+        })
+    })
 }
