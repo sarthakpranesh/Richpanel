@@ -11,6 +11,7 @@ export function initFacebookSdk() {
 
             // auto authenticate with the api if already logged in with facebook
             window.FB.getLoginStatus((resp) => {
+                console.log(resp.status);
                 resolve(resp.authResponse);
             });
         };
@@ -23,5 +24,20 @@ export function initFacebookSdk() {
             js.src = "https://connect.facebook.net/en_US/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));    
+    });
+}
+
+export function facebookLogin() {
+    window.FB.login((resp) => {
+        console.log(resp);
+        window.document.location.reload();
+    }, {
+        scope: ''
+    })
+}
+
+export function facebookLogout() {
+    window.FB.logout(() => {
+        window.document.location.reload();
     });
 }

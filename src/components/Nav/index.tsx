@@ -1,7 +1,8 @@
 import React from 'react';
 
 // import components
-import { People, Inbox } from '../Icons';
+import { People, Inbox, Logout } from '../Icons';
+import { facebookLogout } from '../FacebookSDK';
 
 // importing Images
 import Logo from '../../assets/rp.png';
@@ -20,6 +21,12 @@ const Nav = () => {
             </div>
             <div className="navItem">
                 <People />
+            </div>
+            <div className="navItem">
+                <Logout onClick={() => {
+                    facebookLogout();
+                    console.log('logout');
+                }} />
             </div>
             <div className="navItem navProfile">
                 <div className="navProfileIcon" />
