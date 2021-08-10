@@ -8,7 +8,7 @@
 }
 
 .homeConversationsTab {
-    width: 20vw;
+    width: 25vw;
     height: 100vh;
     background-color: white;
     display: flex;
@@ -19,7 +19,7 @@
 }
 
 .homeConversationsTabHeader {
-    width: 20vw;
+    width: 25vw;
     height: 60px;
     display: flex;
     flex-direction: row;
@@ -87,4 +87,45 @@
     border-radius: 12px;
     padding: 2px 12px;
     font-size: 18px;
+}
+
+.homeCurrentUser {
+    width: 100%;
+    height: 100vh;
+    background-color: #dfe9f1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.homeCurrentUserProfile {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.homeCurrentUserProfileImage {
+    width: 120px;
+    border-radius: 60px;
+}
+
+.homeCurrentUserProfileDetails {
+    margin-top: 20px;
+    border-radius: 8px;
+    width: 80%;
+    background-color: white;
+    padding: 20px;
+}
+
+.homeCurrentUserProfileDetailsItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }

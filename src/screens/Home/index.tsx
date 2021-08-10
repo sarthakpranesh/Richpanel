@@ -82,6 +82,28 @@ const Home = () => {
                     <Send onClick={() => console.log('pressed')} />
                 </div>
             </div>
+            <div className="homeCurrentUser">
+                <div className="homeCurrentUserProfile">
+                    <img src="https://picsum.photos/200/200" className="homeCurrentUserProfileImage" alt="user-profile" />
+                    <h3 style={{margin: 0, marginTop: 20,}}>Sarthak Pranesh</h3>
+                    <h5 style={{margin: 0,}}>Online</h5>
+                </div>
+                <div className="homeCurrentUserProfileDetails">
+                    <h3 style={{margin: 0, marginBottom: 20,}}>Customer Details</h3>
+                    <div className="homeCurrentUserProfileDetailsItem">
+                        <h4 style={{margin: 0, opacity: 0.6, marginBottom: 10}}>Email</h4>
+                        <h4 style={{margin: 0}}>sarthakpranesh08@gmail.com</h4>
+                    </div>
+                    <div className="homeCurrentUserProfileDetailsItem">
+                        <h4 style={{margin: 0, opacity: 0.6, marginBottom: 10}}>First Name</h4>
+                        <h4 style={{margin: 0}}>Sarthak</h4>
+                    </div>
+                    <div className="homeCurrentUserProfileDetailsItem">
+                        <h4 style={{margin: 0, opacity: 0.6, marginBottom: 10}}>Last Name</h4>
+                        <h4 style={{margin: 0}}>Pranesh</h4>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

@@ -12,7 +12,7 @@ const Send = (props: React.SVGProps<SVGSVGElement>) => {
     >
       <path
         d="M21 1L10 12M21 1l-7 20-4-9M21 1L1 8l9 4"
-        stroke="#000"
+        stroke="#004e96"
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"
