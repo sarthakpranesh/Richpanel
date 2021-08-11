@@ -42,11 +42,13 @@ export function facebookLogout() {
     });
 }
 
-export function facebookGetPageAccessToken(userAccessToken) {
+export function facebookGetPageAccessToken() {
     return new Promise(async (resolve, reject) => {
         window.FB.api('/me/accounts', (resp) => {
-            console.log(resp);
-            resolve();
+            resolve({
+                id: resp.data[0].id,
+                accessToken: resp.data[0].access_token,
+            });
         })
     })
 }

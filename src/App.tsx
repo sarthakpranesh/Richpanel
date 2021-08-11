@@ -5,6 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import './App.css';
+import firebase from './components/Firebase';
 
 // importing screens
 import Login from './screens/Login';

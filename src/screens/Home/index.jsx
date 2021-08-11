@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // importing components
 import Nav from '../../components/Nav';
-import { Menu, Refresh, Send } from '../../components/Icons/'
+import { Menu, Refresh, Send } from '../../components/Icons'
 import ConvItem from '../../components/ConvItem';
 import Message from '../../components/Message';
 import { facebookGetPageAccessToken } from '../../components/FacebookSDK';
+import firebase from '../../components/Firebase';
+
+// importing api
+import sendMessage from '../../api/sendMessage';
 
 // importing styles
 import './styles.css';
@@ -52,9 +56,58 @@ const currentConversation = [
 ]
 
 const Home = () => {
+    const [pageDetails, setPageDetails] = useState({
+        accessToken: null,
+        id: null,
+    });
+    const [messages, setMessages] = useState([]);
+    const [current, setCurrent] = useState(0);
+    const [newMsg, setNewMsg] = useState("");
+
+    // get page access
     useEffect(() => {
-        facebookGetPageAccessToken();
+        facebookGetPageAccessToken()
+            .then((pageDetails) => {
+                setPageDetails(pageDetails);
+            })
+            .catch((err) => console.log(err.message))
     }, []);
+
+    // call get messages
+    useEffect(() => {
+        if (pageDetails.id === null) {
+            return;
+        }
+
+        const ref = firebase.database().ref(`page/${pageDetails.id}`)
+
+        const getMessages = () => {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    const resp = await ref.once("value");
+                    const data = await resp.val();
+                    const arrData = Object.values(data);
+                    const sortData = arrData.sort((a, b) => a.timestamp < b.timestamp);
+                    resolve(sortData);
+                } catch (err) {
+                    reject(err);
+                }
+            })
+        }
+
+        getMessages()
+            .then((data) => setMessages(data))
+            .catch((err) => console.log(err.message));
+
+        ref.on("child_changed", async () => {
+            getMessages()
+                .then((data) => setMessages(data))
+                .catch((err) => console.log(err.message));
+        })        
+    }, [pageDetails])
+
+    const currentChat = messages.length !== 0 ? messages[current] : {messages: []};
+
     return (
         <div className="mainWrapperHome">
             <Nav />
@@ -65,8 +118,13 @@ const Home = () => {
                     <Refresh style={{marginRight: 10}} />
                 </div>
                 {
-                    conversations.map((item) => {
-                        return <ConvItem isSelected={item.isSelected} name={item.name} from={item.from} />
+                    messages.map((item, index) => {
+                        return <ConvItem
+                            isSelected={index === current}
+                            name={item.sender}
+                            from={item.type}
+                            onClick={() => setCurrent(index)}
+                        />
                     })
                 }
             </div>
@@ -76,14 +134,26 @@ const Home = () => {
                 </div>
                 <div className="homeCurrentConversationContainer">
                     {
-                        currentConversation.map((item) => {
-                            return <Message message={item.message} align={item.isCustomer ? "left" : "right"} icon={item.icon} />
+                        currentChat.messages.map((item: any) => {
+                            return <Message key={item.mid} message={item.text} align={item.isCustomer ? "left" : "right"} icon="https://picsum.photos/200/200" />
                         })
                     }
                 </div>
                 <div className="homeCurrentConversationNewMessage">
-                    <input type="text" className="homeCurrentConversationNewMessageInput" />
-                    <Send onClick={() => console.log('pressed')} />
+                    <input
+                        type="text"
+                        className="homeCurrentConversationNewMessageInput"
+                        value={newMsg}
+                        onChange={(e) => setNewMsg(e.target.value)}
+                    />
+                    <Send onClick={() => {
+                        const recipId = currentChat.sender;
+                        const sendId = currentChat.recipient;
+                        const pageToken = pageDetails.accessToken
+                        sendMessage(recipId, sendId, newMsg, pageToken)
+                            .then(() => setNewMsg(""))
+                            .catch((err) => console.log(err.message))
+                    }} />
                 </div>
             </div>
             <div className="homeCurrentUser">
