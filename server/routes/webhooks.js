@@ -6,14 +6,18 @@ const db = firebase.database();
 
 app.post('/webhook', (req, res) => {  
     let body = req.body;
-    console.log(body);
     if (body.object === 'page') {
       body.entry.forEach(function(entry) {
-        let webhook_event = entry.messaging[0];
-        if (webhook_event.message) {
-          handleMessage(webhook_event);        
+        if (entry.message === undefined && entry.changes) {
+          const webhook_change = entry.changes[0];
+          console.log(webhook_change);
         } else {
-          console.log('Do not handle this event!');
+          let webhook_event = entry.messaging[0];
+          if (webhook_event.message) {
+            handleMessage(webhook_event);        
+          } else {
+            console.log('Do not handle this event!');
+          }
         }
       });
       res.status(200).send('EVENT_RECEIVED');
