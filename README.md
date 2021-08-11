@@ -1,6 +1,7 @@
 # Richpanel - FB helper
 
 Richpanel assignment - Sarthak Pranesh ( 18BCE0814 ), VIT Vellore
+Video link - https://github.com/sarthakpranesh/Richpanel/video.mkv
 
 <br />
 
