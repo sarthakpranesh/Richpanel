@@ -14,47 +14,6 @@ import sendMessage from '../../api/sendMessage';
 // importing styles
 import './styles.css';
 
-// sample data
-const conversations = [
-    {
-        name: "Sarthak Pranesh",
-        from: "Facebook DM",
-        isSelected: true,
-    },
-    {
-        name: "Megha Pranesh",
-        from: "Facebook post",
-        isSelected: false,
-    },
-    {
-        name: "Jayanti Pranesh",
-        from: "Facebook post",
-        isSelected: false,
-    }
-];
-const currentConversation = [
-    {
-        message: "Hello, is this free",
-        icon: "https://picsum.photos/200/200",
-        isCustomer: true,
-    },
-    {
-        message: "Nothing is Free!!!",
-        icon: "https://picsum.photos/200/300",
-        isCustomer: false,
-    },
-    {
-        message: "But I want it free with my Audi!",
-        icon: "https://picsum.photos/200/200",
-        isCustomer: true,
-    },
-    {
-        message: "Sir we request you to read the terms and conditions of buying stuff online. Thank you!",
-        icon: "https://picsum.photos/200/200",
-        isCustomer: false,
-    },
-]
-
 const Home = () => {
     const [pageDetails, setPageDetails] = useState({
         accessToken: null,

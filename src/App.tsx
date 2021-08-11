@@ -5,6 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import './App.css';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import firebase from './components/Firebase';
 
 // importing screens

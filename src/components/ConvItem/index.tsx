@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // importing styles
 import './styles.css';
