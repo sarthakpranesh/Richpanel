@@ -29,7 +29,7 @@ export function initFacebookSdk() {
 
 export function facebookLogin() {
     window.FB.login((resp) => {
-        console.log(resp);
+
         window.document.location.reload();
     }, {
         scope: 'public_profile,email,pages_messaging,pages_read_user_content,pages_manage_metadata',

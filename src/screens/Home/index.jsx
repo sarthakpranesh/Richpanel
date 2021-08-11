@@ -13,8 +13,9 @@ import sendMessage from '../../api/sendMessage';
 
 // importing styles
 import './styles.css';
+import registerUser from '../../api/registerUser';
 
-const Home = () => {
+const Home = (props) => {
     const [pageDetails, setPageDetails] = useState({
         accessToken: null,
         id: null,
@@ -28,9 +29,11 @@ const Home = () => {
         facebookGetPageAccessToken()
             .then((pageDetails) => {
                 setPageDetails(pageDetails);
+                return pageDetails;
             })
+            .then((pageDetails) => registerUser(props.userId, pageDetails.id, pageDetails.accessToken))
             .catch((err) => console.log(err.message))
-    }, []);
+    }, [props.userId]);
 
     // call get messages
     useEffect(() => {
@@ -38,7 +41,7 @@ const Home = () => {
             return;
         }
 
-        const ref = firebase.database().ref(`page/${pageDetails.id}`)
+        const ref = firebase.database().ref(`page/${pageDetails.id}/chats/`)
 
         const getMessages = () => {
             return new Promise(async (resolve, reject) => {
@@ -82,7 +85,7 @@ const Home = () => {
                     messages.map((item, index) => {
                         return <ConvItem
                             isSelected={index === current}
-                            name={item.sender}
+                            name={`${item.profile.first_name} ${item.profile.last_name}`}
                             from={item.type}
                             onClick={() => setCurrent(index)}
                         />
@@ -91,12 +94,17 @@ const Home = () => {
             </div>
             <div className="homeCurrentConversation">
                 <div className="homeCurrentConversationHeader">
-                    <h3>Sarthak Pranesh</h3>
+                    <h3>{currentChat.profile.first_name + " " + currentChat.profile.last_name}</h3>
                 </div>
                 <div className="homeCurrentConversationContainer">
                     {
-                        currentChat.messages.map((item: any) => {
-                            return <Message key={item.mid} message={item.text} align={item.isCustomer ? "left" : "right"} icon="https://picsum.photos/200/200" />
+                        currentChat.messages.map((item) => {
+                            return <Message
+                                key={item.mid}
+                                message={item.text}
+                                align={item.isCustomer ? "left" : "right"}
+                                icon={currentChat.profile.profile_pic}
+                            />
                         })
                     }
                 </div>
@@ -132,22 +140,22 @@ const Home = () => {
                         className="homeCurrentUserProfileImage"
                         alt="user-profile"
                     />
-                    <h3 style={{margin: 0, marginTop: 20,}}>Sarthak Pranesh</h3>
+                    <h3 style={{margin: 0, marginTop: 20,}}>{currentChat.profile.first_name + " " + currentChat.profile.last_name}</h3>
                     <h5 style={{margin: 0,}}>Online</h5>
                 </div>
                 <div className="homeCurrentUserProfileDetails">
                     <h3 style={{margin: 0, marginBottom: 20,}}>Customer Details</h3>
                     <div className="homeCurrentUserProfileDetailsItem">
                         <h4 style={{margin: 0, opacity: 0.6, marginBottom: 10}}>Email</h4>
-                        <h4 style={{margin: 0}}>sarthakpranesh08@gmail.com</h4>
+                        <h4 style={{margin: 0}}>someone@gmail.com</h4>
                     </div>
                     <div className="homeCurrentUserProfileDetailsItem">
                         <h4 style={{margin: 0, opacity: 0.6, marginBottom: 10}}>First Name</h4>
-                        <h4 style={{margin: 0}}>Sarthak</h4>
+                        <h4 style={{margin: 0}}>{currentChat.profile.first_name}</h4>
                     </div>
                     <div className="homeCurrentUserProfileDetailsItem">
                         <h4 style={{margin: 0, opacity: 0.6, marginBottom: 10}}>Last Name</h4>
-                        <h4 style={{margin: 0}}>Pranesh</h4>
+                        <h4 style={{margin: 0}}>{currentChat.profile.last_name}</h4>
                     </div>
                 </div>
             </div>

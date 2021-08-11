@@ -19,7 +19,7 @@ function App({userAuthState}: any) {
       <Router>
         <Switch>
           <Route path="/">
-            <Home />
+            <Home userId={userAuthState.userId} />
           </Route>
         </Switch>
       </Router>

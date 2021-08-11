@@ -1,6 +1,7 @@
 const app = require("express")()
 const request = require('request');
 const firebase = require("../middleware/firebase");
+const fetch = require('node-fetch');
 
 const db = firebase.database();
 
@@ -29,16 +30,27 @@ app.post('/webhook', (req, res) => {
 function handleMessage(webhookEvent) {
     let sender_psid = webhookEvent.sender.id;
     let recipient_psid = webhookEvent.recipient.id;
-    const ref = db.ref(`page/${recipient_psid}/${sender_psid}`);
-    ref.once("value")
-        .then((data) => data.val())
-        .then((data) => {
+    const refToken = db.ref(`page/${recipient_psid}`);
+    const ref = db.ref(`page/${recipient_psid}/chats/${sender_psid}`);
+    Promise.all([
+      refToken.once("value"),
+      ref.once("value"),
+    ])
+        .then(([accessToken, chatData]) => [accessToken.val(), chatData.val()])
+        .then(async ([at, data]) => {
+          const resp = await fetch(`https://graph.facebook.com/${sender_psid}?fields=first_name,last_name,profile_pic,email&access_token=${at.accessToken}`)
+          const profile = await resp.json();
+          return [data, profile];
+        })
+        .then(([data, profile]) => {
+            console.log(profile);
             if (data === null) {
                 data = {};
                 data.messages = [];
                 data.sender = sender_psid;
                 data.recipient = recipient_psid;
                 data.type = "Facebook Message";
+                data.profile = profile;
             }
             webhookEvent.message.isCustomer = true;
             ref.set({
@@ -84,7 +96,7 @@ app.post('/message', async (req, res) => {
     const pageAccessToken = req.header("Authorization");
     try {
       await callSendAPI(recipientId, senderId, pageAccessToken, message);
-      const ref = await db.ref(`page/${senderId}/${recipientId}`);
+      const ref = await db.ref(`page/${senderId}/chats/${recipientId}`);
       const refData = await ref.once("value");
       const data = await refData.val();
       await ref.set({
