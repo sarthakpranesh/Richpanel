@@ -6,7 +6,7 @@ const db = firebase.database();
 
 app.post('/webhook', (req, res) => {  
     let body = req.body;
-    console.log("Web Hook Call");
+    console.log(body);
     if (body.object === 'page') {
       body.entry.forEach(function(entry) {
         let webhook_event = entry.messaging[0];

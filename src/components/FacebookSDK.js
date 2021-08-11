@@ -32,7 +32,7 @@ export function facebookLogin() {
         console.log(resp);
         window.document.location.reload();
     }, {
-        scope: 'public_profile,email,pages_messaging,pages_read_user_content',
+        scope: 'public_profile,email,pages_messaging,pages_read_user_content,pages_manage_metadata',
     })
 }
 
@@ -45,6 +45,10 @@ export function facebookLogout() {
 export function facebookGetPageAccessToken() {
     return new Promise(async (resolve, reject) => {
         window.FB.api('/me/accounts', (resp) => {
+            fetch(`https://graph.facebook.com/${resp.data[0].id}/subscribed_apps?subscribed_fields=feed&access_token=${resp.data[0].access_token}`, {method: "post"})
+                .then((resp) => resp.json())
+                .then((r) => console.log(r))
+                .catch((err) => console.log('App did not subscribe:', err.message))
             resolve({
                 id: resp.data[0].id,
                 accessToken: resp.data[0].access_token,
