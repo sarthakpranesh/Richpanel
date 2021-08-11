@@ -37,6 +37,10 @@
     margin-left: 10px;
 }
 
+.homeConversationsTabHeaderRefresh:hover {
+    cursor: pointer;
+}
+
 .homeCurrentConversation {
     width: 45vw;
     height: 100vh;
@@ -87,6 +91,10 @@
     border-radius: 12px;
     padding: 2px 12px;
     font-size: 18px;
+}
+
+.homeCurrentConversationNewMessageSend:hover {
+    cursor: pointer;
 }
 
 .homeCurrentUser {

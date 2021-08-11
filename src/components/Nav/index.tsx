@@ -13,13 +13,13 @@ import './styles.css'
 const Nav = () => {
     return (
         <div className="mainWrapperNav">
-            <div className="navItem">
+            <div className="navItem" onClick={() => window.open('https://richpanel.com/', '_blank')}>
                 <img className="navItemLogo" src={Logo} alt="Richpanel logo" />
             </div>
             <div className="navItem navItemSelected">
                 <Inbox />
             </div>
-            <div className="navItem">
+            <div className="navItem" onClick={() => alert('All people collaborating on the current page')}>
                 <People />
             </div>
             <div className="navItem">

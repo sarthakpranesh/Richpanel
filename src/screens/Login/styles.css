@@ -9,3 +9,15 @@
     background-color: #004e96;
     color: white;
 }
+
+.loginContinueButton {
+    background-color: white;
+    border-radius: 8px;
+    color: #004e96;
+    padding: 6px 20px;
+    font-weight: bold;
+}
+
+.loginContinueButton:hover {
+    cursor: pointer;
+}

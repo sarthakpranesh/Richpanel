@@ -17,6 +17,10 @@
     justify-content: center;
 }
 
+.navItem:hover {
+    cursor: pointer;
+}
+
 .navItemLogo {
     width: 4vw;
     height: 4vw;

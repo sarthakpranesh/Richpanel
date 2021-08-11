@@ -74,7 +74,9 @@ const Home = () => {
                 <div className="homeConversationsTabHeader">
                     <Menu style={{marginLeft: 10}} />
                     <h2>Conversations</h2>
-                    <Refresh style={{marginRight: 10}} />
+                    <div className="homeConversationsTabHeaderRefresh" onClick={() => window.document.location.reload()}>
+                        <Refresh style={{marginRight: 10}} />
+                    </div>
                 </div>
                 {
                     messages.map((item, index) => {
@@ -105,19 +107,31 @@ const Home = () => {
                         value={newMsg}
                         onChange={(e) => setNewMsg(e.target.value)}
                     />
-                    <Send onClick={() => {
-                        const recipId = currentChat.sender;
-                        const sendId = currentChat.recipient;
-                        const pageToken = pageDetails.accessToken
-                        sendMessage(recipId, sendId, newMsg, pageToken)
-                            .then(() => setNewMsg(""))
-                            .catch((err) => console.log(err.message))
-                    }} />
+                    <div className="homeCurrentConversationNewMessageSend">
+                        <Send
+                            onClick={() => {
+                                if (newMsg === "") {
+                                    return alert('You forgot to type a message!');
+                                }
+                                const recipId = currentChat.sender;
+                                const sendId = currentChat.recipient;
+                                const pageToken = pageDetails.accessToken
+                                sendMessage(recipId, sendId, newMsg, pageToken)
+                                    .then(() => setNewMsg(""))
+                                    .then(() => setCurrent(0))
+                                    .catch((err) => console.log(err.message))
+                                }}
+                        />
+                    </div>
                 </div>
             </div>
             <div className="homeCurrentUser">
                 <div className="homeCurrentUserProfile">
-                    <img src="https://picsum.photos/200/200" className="homeCurrentUserProfileImage" alt="user-profile" />
+                    <img
+                        src="https://picsum.photos/200/200"
+                        className="homeCurrentUserProfileImage"
+                        alt="user-profile"
+                    />
                     <h3 style={{margin: 0, marginTop: 20,}}>Sarthak Pranesh</h3>
                     <h5 style={{margin: 0,}}>Online</h5>
                 </div>

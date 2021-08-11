@@ -10,8 +10,8 @@ const Login = () => {
     return (
         <div className="mainWrapperLogin">
             <h1>Welcome to FB Helper</h1>
-            <h4>To Continue, please login</h4>
-            <div onClick={() => facebookLogin()}>
+            <h4>To Continue, please click below</h4>
+            <div className="loginContinueButton" onClick={() => facebookLogin()}>
                 Continue with Facebook
             </div>
         </div>
