@@ -68,7 +68,11 @@ const Home = (props) => {
         })        
     }, [pageDetails])
 
-    const currentChat = messages.length !== 0 ? messages[current] : {messages: []};
+    const currentChat = messages.length !== 0 ? messages[current] : {messages: [], profile: {
+        first_name: "",
+        last_name: "",
+        profile_pic: ""
+    }};
 
     return (
         <div className="mainWrapperHome">
